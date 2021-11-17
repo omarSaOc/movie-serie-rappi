@@ -25,12 +25,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "app-client"
+    productFlavors {
+        dev {
+            applicationId "com.oaso.movie_series_rappi"
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/4\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
     }
 }
 
