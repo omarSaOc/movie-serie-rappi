@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">movie-series-rappi</string>
+    <string name="api_key">2a78f529dbe1372f6db020930a705fa4</string>
 </resources>

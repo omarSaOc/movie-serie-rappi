@@ -1,7 +1,8 @@
 package com.oaso.movie_series_rappi.di
 
-import android.os.Build
 import com.oaso.movie_series_rappi.BuildConfig
+import com.oaso.movie_series_rappi.model.MoviesRepository
+import com.oaso.movie_series_rappi.model.TheMovieDbService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,10 +18,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
     @Singleton
     @Provides
-    fun providesHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
+    fun providesOkHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
@@ -34,8 +34,19 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BuildConfig.BASE_URL)
+        .client(okHttpClient)
         .build()
+
+    @Singleton
+    @Provides
+    fun providesService(retrofit: Retrofit): TheMovieDbService =
+        retrofit.create(TheMovieDbService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesRepository(theMovieDbService: TheMovieDbService) =
+        MoviesRepository(theMovieDbService)
 }
