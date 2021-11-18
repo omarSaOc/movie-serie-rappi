@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ViewMovieBinding
-import com.oaso.movie_series_rappi.model.Movie
+import com.oaso.movie_series_rappi.model.server.Movie
 import com.oaso.movie_series_rappi.ui.common.basicDiffUtil
 import com.oaso.movie_series_rappi.ui.common.inflate
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 
 class MoviesAdapter(
-//    private val listener: (Movie) -> Unit
+    private val listener: (Movie) -> Unit
 ) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
@@ -28,7 +28,7 @@ class MoviesAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
         holder.bind(movie)
-//        holder.itemView.setOnClickListener { listener(movie) }
+        holder.itemView.setOnClickListener { listener(movie) }
     }
 
     override fun getItemCount() = movies.size

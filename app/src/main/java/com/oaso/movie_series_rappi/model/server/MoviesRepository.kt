@@ -1,6 +1,4 @@
-package com.oaso.movie_series_rappi.model
-
-import dagger.Provides
+package com.oaso.movie_series_rappi.model.server
 
 
 class MoviesRepository(private val service: TheMovieDbService) {

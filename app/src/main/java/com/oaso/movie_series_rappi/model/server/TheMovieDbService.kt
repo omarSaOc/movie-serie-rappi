@@ -1,6 +1,6 @@
-package com.oaso.movie_series_rappi.model
+package com.oaso.movie_series_rappi.model.server
 
-import retrofit2.Response
+import com.oaso.movie_series_rappi.model.server.MovieDbResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 

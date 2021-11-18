@@ -1,4 +1,4 @@
-package com.oaso.movie_series_rappi.model
+package com.oaso.movie_series_rappi.model.server
 
 data class MovieDbResult(
     val page: Int,

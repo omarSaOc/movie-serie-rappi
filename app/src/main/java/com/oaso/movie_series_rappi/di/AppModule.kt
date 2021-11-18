@@ -1,8 +1,8 @@
 package com.oaso.movie_series_rappi.di
 
 import com.oaso.movie_series_rappi.BuildConfig
-import com.oaso.movie_series_rappi.model.MoviesRepository
-import com.oaso.movie_series_rappi.model.TheMovieDbService
+import com.oaso.movie_series_rappi.model.server.MoviesRepository
+import com.oaso.movie_series_rappi.model.server.TheMovieDbService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
