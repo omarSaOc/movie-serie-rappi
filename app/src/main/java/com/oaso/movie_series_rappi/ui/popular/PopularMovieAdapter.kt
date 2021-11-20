@@ -20,6 +20,7 @@ class PopularMovieAdapter(
         areItemsTheSame = { old, new -> old.id == new.id }
     )
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMovieViewHolder {
         val view = parent.inflate(R.layout.view_movie, false)
         return PopularMovieViewHolder(view)
@@ -40,4 +41,5 @@ class PopularMovieAdapter(
             moviePoster.loadUrl("https://image.tmdb.org/t/p/w185/${popularMovie.posterPath}")
         }
     }
+
 }

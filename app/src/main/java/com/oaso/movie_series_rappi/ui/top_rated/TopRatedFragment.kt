@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.oaso.movie_series_rappi.databinding.FragmentTopRatedBinding
+import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
 import com.oaso.movie_series_rappi.ui.common.startActivity
 import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieActivity
 import com.oaso.movie_series_rappi.ui.top_rated_detail.DetailTopRatedActivity
@@ -18,10 +20,9 @@ class TopRatedFragment : Fragment() {
 
     private val viewModel: TopRatedViewModel by viewModels()
     private var _binding: FragmentTopRatedBinding? = null
-    private lateinit var adapter : RatedMovieAdapter
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var adapter: RatedMovieAdapter
+    private var movies = ArrayList<RatedMovie>()
+    private var filterMovies = ArrayList<RatedMovie>()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,6 +35,20 @@ class TopRatedFragment : Fragment() {
         val root: View = binding.root
         adapter = RatedMovieAdapter(viewModel::onMovieClicked)
         binding.recycler.adapter = adapter
+        binding.searchTopRatedMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterMovies = movies.filter { ratedMovie ->
+                    ratedMovie.title.lowercase().contains(newText.toString().lowercase())
+                } as ArrayList<RatedMovie>
+                adapter.ratedMovies = filterMovies
+                return true
+            }
+
+        })
 
         viewModel.model.observe(viewLifecycleOwner, Observer(::updateUi))
         viewModel.navigation.observe(viewLifecycleOwner, { event ->
@@ -43,7 +58,6 @@ class TopRatedFragment : Fragment() {
                 }
             }
         })
-
         return root
     }
 
@@ -53,11 +67,13 @@ class TopRatedFragment : Fragment() {
     }
 
     private fun updateUi(model: TopRatedViewModel.UiModel) {
-        binding.progress.visibility = if (model is TopRatedViewModel.UiModel.Loading) View.VISIBLE else View.GONE
+        binding.progress.visibility =
+            if (model is TopRatedViewModel.UiModel.Loading) View.VISIBLE else View.GONE
         when (model) {
             is TopRatedViewModel.UiModel.Content -> {
                 binding.progress.visibility = View.GONE
-                adapter.ratedMovies = model.ratedMovies
+                movies = model.ratedMovies as ArrayList<RatedMovie>
+                adapter.ratedMovies = movies
             }
         }
     }
