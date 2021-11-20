@@ -1,6 +1,11 @@
 package com.oaso.movie_series_rappi.di
 
+import android.app.Application
+import androidx.room.Room
 import com.oaso.movie_series_rappi.BuildConfig
+import com.oaso.movie_series_rappi.R
+import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovieDataBase
+import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovieDataBase
 import com.oaso.movie_series_rappi.model.server.MoviesRepository
 import com.oaso.movie_series_rappi.model.server.TheMovieDbService
 import dagger.Module
@@ -11,12 +16,35 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+class AppModule {
+
+
+    @Provides
+    @Singleton
+    @Named("apiKey")
+    fun apiKeyProvider(app: Application) = app.getString(R.string.api_key)
+
+    @Provides
+    @Singleton
+    fun databaseProvider(app: Application): PopularMovieDataBase = Room.databaseBuilder(
+        app,
+        PopularMovieDataBase::class.java,
+        "movie-db"
+    ).build()
+
+    @Provides
+    @Singleton
+    fun databaseRatedProvider(app: Application): RatedMovieDataBase = Room.databaseBuilder(
+        app,
+        RatedMovieDataBase::class.java,
+        "rated-movie-db"
+    ).build()
 
     @Singleton
     @Provides
@@ -45,8 +73,9 @@ object AppModule {
     fun providesService(retrofit: Retrofit): TheMovieDbService =
         retrofit.create(TheMovieDbService::class.java)
 
+
     @Singleton
     @Provides
-    fun providesRepository(theMovieDbService: TheMovieDbService) =
-        MoviesRepository(theMovieDbService)
+    fun providesRepository(theMovieDbService: TheMovieDbService, db: PopularMovieDataBase, ratedDb : RatedMovieDataBase) =
+        MoviesRepository(theMovieDbService, db, ratedDb)
 }

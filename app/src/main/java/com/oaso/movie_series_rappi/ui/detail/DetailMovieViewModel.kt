@@ -3,13 +3,17 @@ package com.oaso.movie_series_rappi.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.model.server.Movie
+import com.oaso.movie_series_rappi.model.server.MoviesRepository
+import javax.inject.Inject
 
-class DetailMovieViewModel() : ViewModel() {
+class DetailMovieViewModel :
+    ViewModel() {
 
-    private lateinit var movie : Movie
+    private lateinit var movie: PopularMovie
 
-    class UiModel(val movie: Movie)
+    class UiModel(val movie: PopularMovie)
 
     private val _model = MutableLiveData<UiModel>()
     val model: LiveData<UiModel>
@@ -20,7 +24,7 @@ class DetailMovieViewModel() : ViewModel() {
             return _model
         }
 
-    fun setMovie(movie : Movie){
+    fun setMovie(movie: PopularMovie) {
         this.movie = movie
     }
 }

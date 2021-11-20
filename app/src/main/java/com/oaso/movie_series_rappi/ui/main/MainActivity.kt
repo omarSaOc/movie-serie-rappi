@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         when (model) {
             is UiModel.Content -> {
                 binding.progress.visibility = View.GONE
-                adapter.movies = model.movies
+                adapter.popularMovies = model.popularMovies
             }
         }
 

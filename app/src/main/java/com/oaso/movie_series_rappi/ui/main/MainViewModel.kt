@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oaso.movie_series_rappi.model.server.Movie
+import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.model.server.MoviesRepository
 import com.oaso.movie_series_rappi.ui.common.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +23,12 @@ class MainViewModel @Inject constructor(
             return _model
         }
 
-    private val _navigation = MutableLiveData<Event<Movie>>()
-    val navigation: LiveData<Event<Movie>> = _navigation
+    private val _navigation = MutableLiveData<Event<PopularMovie>>()
+    val navigation: LiveData<Event<PopularMovie>> = _navigation
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val movies: List<Movie>) : UiModel()
+        class Content(val popularMovies: List<PopularMovie>) : UiModel()
     }
 
     private fun loadPopularMovies() {
@@ -36,9 +36,7 @@ class MainViewModel @Inject constructor(
             _model.value = UiModel.Loading
             _model.value =
                 UiModel.Content(
-                    moviesRepository.getPopularMovies(
-                        "2a78f529dbe1372f6db020930a705fa4"
-                    ).results
+                    moviesRepository.getPopularMovies()
                 )
         }
     }
@@ -47,7 +45,7 @@ class MainViewModel @Inject constructor(
         loadPopularMovies()
     }
 
-    fun onMovieClicked(movie: Movie) {
-        _navigation.value = Event(movie)
+    fun onMovieClicked(popularMovie: PopularMovie) {
+        _navigation.value = Event(popularMovie)
     }
 }
