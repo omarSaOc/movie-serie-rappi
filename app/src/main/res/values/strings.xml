@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">movie-series-rappi</string>
     <string name="api_key">2a78f529dbe1372f6db020930a705fa4</string>
+    <string name="title_activity_bottom">BottomActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

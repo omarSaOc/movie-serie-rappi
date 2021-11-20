@@ -1,4 +1,4 @@
-package com.oaso.movie_series_rappi.ui.main
+package com.oaso.movie_series_rappi.ui.popular
 
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +10,22 @@ import com.oaso.movie_series_rappi.ui.common.basicDiffUtil
 import com.oaso.movie_series_rappi.ui.common.inflate
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 
-class MoviesAdapter(
+class PopularMovieAdapter(
     private val listener: (PopularMovie) -> Unit
 ) :
-    RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+    RecyclerView.Adapter<PopularMovieAdapter.PopularMovieViewHolder>() {
 
     var popularMovies: List<PopularMovie> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMovieViewHolder {
         val view = parent.inflate(R.layout.view_movie, false)
-        return MovieViewHolder(view)
+        return PopularMovieViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PopularMovieViewHolder, position: Int) {
         val movie = popularMovies[position]
         holder.bind(movie)
         holder.itemView.setOnClickListener { listener(movie) }
@@ -33,7 +33,7 @@ class MoviesAdapter(
 
     override fun getItemCount() = popularMovies.size
 
-    class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PopularMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ViewMovieBinding.bind(itemView)
         fun bind(popularMovie: PopularMovie) = with(binding) {
             movieTitle.text = popularMovie.title
