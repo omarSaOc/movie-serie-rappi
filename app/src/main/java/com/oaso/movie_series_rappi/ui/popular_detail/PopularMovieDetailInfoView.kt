@@ -1,4 +1,4 @@
-package com.oaso.movie_series_rappi.ui.detail
+package com.oaso.movie_series_rappi.ui.popular_detail
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,9 +6,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
-import com.oaso.movie_series_rappi.model.server.Movie
 
-class MovieDetailInfoView @JvmOverloads constructor(
+class PopularMovieDetailInfoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatTextView(context, attrs) {
 

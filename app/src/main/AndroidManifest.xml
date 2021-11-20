@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movieseriesrappi">
         <activity
+            android:name=".ui.top_rated_detail.DetailTopRatedActivity"
+            android:exported="true"
+            android:parentActivityName=".ui.popular.PopularActivity"
+            android:theme="@style/Theme.Movieseriesrappi.NoActionBar"/>
+        <activity
             android:name=".ui.popular.PopularActivity"
             android:exported="true"
             android:label="@string/title_activity_bottom">
@@ -23,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.DetailMovieActivity"
+            android:name=".ui.popular_detail.DetailPopularMovieActivity"
             android:exported="true"
             android:parentActivityName=".ui.popular.PopularActivity"
             android:theme="@style/Theme.Movieseriesrappi.NoActionBar" />

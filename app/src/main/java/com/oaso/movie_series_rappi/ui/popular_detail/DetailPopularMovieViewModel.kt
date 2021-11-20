@@ -1,14 +1,11 @@
-package com.oaso.movie_series_rappi.ui.detail
+package com.oaso.movie_series_rappi.ui.popular_detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
-import com.oaso.movie_series_rappi.model.server.Movie
-import com.oaso.movie_series_rappi.model.server.MoviesRepository
-import javax.inject.Inject
 
-class DetailMovieViewModel :
+class DetailPopularMovieViewModel :
     ViewModel() {
 
     private lateinit var movie: PopularMovie

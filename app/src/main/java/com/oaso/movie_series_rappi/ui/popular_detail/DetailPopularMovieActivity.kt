@@ -1,4 +1,4 @@
-package com.oaso.movie_series_rappi.ui.detail
+package com.oaso.movie_series_rappi.ui.popular_detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,19 +6,16 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.oaso.movie_series_rappi.databinding.ActivityDetailMovieBinding
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
-import com.oaso.movie_series_rappi.model.server.Movie
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 
-
-class DetailMovieActivity : AppCompatActivity() {
+class DetailPopularMovieActivity : AppCompatActivity() {
 
     companion object {
-        const val MOVIE = "DetailMovieActivity:movie"
+        const val MOVIE = "DetailPopularMovieActivity:movie"
     }
 
-    private val viewModel: DetailMovieViewModel by viewModels()
+    private val viewModelPopular: DetailPopularMovieViewModel by viewModels()
     private lateinit var binding: ActivityDetailMovieBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +27,12 @@ class DetailMovieActivity : AppCompatActivity() {
 
         val movie: PopularMovie = intent.getParcelableExtra(MOVIE)
             ?: throw(IllegalAccessException("Movie not found"))
-        viewModel.setMovie(movie)
-        viewModel.model.observe(this, Observer(::updateUi))
+        viewModelPopular.setMovie(movie)
+        viewModelPopular.model.observe(this, Observer(::updateUi))
     }
 
-    private fun updateUi(model: DetailMovieViewModel.UiModel) = with(binding) {
-        val movie = model.movie
+    private fun updateUi(modelPopular: DetailPopularMovieViewModel.UiModel) = with(binding) {
+        val movie = modelPopular.movie
         movieDetailToolbar.title = movie.title
         movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
         movieDetailSummary.text = movie.overview

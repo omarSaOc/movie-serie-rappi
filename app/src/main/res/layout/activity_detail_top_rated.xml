@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.popular_detail.DetailPopularMovieActivity">
+    tools:context=".ui.top_rated_detail.DetailTopRatedActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:padding="16dp"
                 tools:text="Lorem ipsum" />
 
-            <com.oaso.movie_series_rappi.ui.popular_detail.PopularMovieDetailInfoView
+            <com.oaso.movie_series_rappi.ui.top_rated_detail.TopRatedMovieDetailInfoView
                 android:id="@+id/movieDetailInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

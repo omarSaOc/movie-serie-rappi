@@ -19,11 +19,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
 
     @Provides
     @Singleton
@@ -76,6 +74,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun providesRepository(theMovieDbService: TheMovieDbService, db: PopularMovieDataBase, ratedDb : RatedMovieDataBase) =
+    fun providesRepository(
+        theMovieDbService: TheMovieDbService,
+        db: PopularMovieDataBase,
+        ratedDb: RatedMovieDataBase
+    ) =
         MoviesRepository(theMovieDbService, db, ratedDb)
 }

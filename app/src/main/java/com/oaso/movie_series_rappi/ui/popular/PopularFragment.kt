@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.oaso.movie_series_rappi.databinding.FragmentPopularBinding
+import com.oaso.movie_series_rappi.ui.common.startActivity
+import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,13 +35,13 @@ class PopularFragment : Fragment() {
         binding.recycler.adapter = adapter
 
         viewModel.model.observe(viewLifecycleOwner, Observer(::updateUi))
-//        viewModel.navigation.observe(viewLifecycleOwner, { event ->
-//            event.getContentIfNotHandled()?.let {
-//                startActivity<DetailMovieActivity> {
-//                    putExtra(DetailMovieActivity.MOVIE, it)
-//                }
-//            }
-//        })
+        viewModel.navigation.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let {
+                context?.startActivity<DetailPopularMovieActivity> {
+                    putExtra(DetailPopularMovieActivity.MOVIE, it)
+                }
+            }
+        })
 
         return root
     }
