@@ -5,10 +5,11 @@ import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovieDataBase
 import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
 import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovieDataBase
+import com.oaso.movie_series_rappi.model.server.models.videos.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.oaso.movie_series_rappi.model.server.Movie as ServerMovie
+import com.oaso.movie_series_rappi.model.server.models.movie.Movie as ServerMovie
 
 class MoviesRepository @Inject constructor(
     private val service: TheMovieDbService,
@@ -18,30 +19,26 @@ class MoviesRepository @Inject constructor(
     suspend fun getPopularMovies(): List<PopularMovie> = withContext(Dispatchers.IO) {
         with(db.movieDao()) {
             if (movieCount() <= 0) {
-                val movies = service.getPopularMovies(BuildConfig.API_KEY).results
+                val movies = service.getPopularMovies().results
                 insertMovies(movies.map { movie -> convertToPopularMovie(movie) })
             }
             getAll()
         }
     }
 
-    suspend fun findPopularMovie(id: Int): PopularMovie = withContext(Dispatchers.IO) {
-        db.movieDao().getMovieById(id)
-    }
-
     suspend fun getTopRatedMovies(): List<RatedMovie> = withContext(Dispatchers.IO) {
         with(ratedDb.ratedMovieDao()) {
             if (movieCount() <= 0) {
-                val movies = service.getTopRatedMovies(BuildConfig.API_KEY).results
+                val movies = service.getTopRatedMovies().results
                 insertMovies(movies.map { movie -> convertToRatedMovie(movie) })
             }
             getAll()
         }
     }
 
-    suspend fun findRatedMovieById(id : Int) : RatedMovie = withContext(Dispatchers.IO){
-        ratedDb.ratedMovieDao().getMovieById(id)
-    }
+    suspend fun getVideos(id: Int): List<Result> =
+        service.getVideos(BuildConfig.BASE_URL + "movie/" + id).videos.results
+
 
     private fun convertToPopularMovie(movie: ServerMovie) = PopularMovie(
         0,
@@ -54,7 +51,8 @@ class MoviesRepository @Inject constructor(
         movie.original_title,
         movie.popularity,
         movie.vote_average,
-        false
+        false,
+        movie.id
     )
 
     private fun convertToRatedMovie(movie: ServerMovie) = RatedMovie(
@@ -68,7 +66,8 @@ class MoviesRepository @Inject constructor(
         movie.original_title,
         movie.popularity,
         movie.vote_average,
-        false
+        false,
+        movie.id
     )
 }
 

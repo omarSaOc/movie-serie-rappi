@@ -2,26 +2,28 @@ package com.oaso.movie_series_rappi.ui.top_rated_detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
+import com.oaso.movie_series_rappi.BuildConfig
 import com.oaso.movie_series_rappi.R
-import com.oaso.movie_series_rappi.databinding.ActivityDetailMovieBinding
 import com.oaso.movie_series_rappi.databinding.ActivityDetailTopRatedBinding
-import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
 import com.oaso.movie_series_rappi.ui.common.loadUrl
-import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieActivity
-import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieViewModel
+import com.oaso.movie_series_rappi.ui.popular.PlayVideoDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailTopRatedActivity : AppCompatActivity() {
 
     companion object {
         const val MOVIE = "DetailTopRatedActivity:movie"
     }
 
-    private val viewModel : DetailTopRatedMovieViewModel by viewModels()
-    private lateinit var binding : ActivityDetailTopRatedBinding
+    private val viewModel: DetailTopRatedMovieViewModel by viewModels()
+    private lateinit var binding: ActivityDetailTopRatedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,10 @@ class DetailTopRatedActivity : AppCompatActivity() {
         setSupportActionBar(binding.movieDetailToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        binding.fab.setOnClickListener {
+            viewModel.playVideoTrailer()
+        }
+
         val movie: RatedMovie = intent.getParcelableExtra(MOVIE)
             ?: throw(IllegalAccessException("Movie not found"))
         viewModel.setMovie(movie)
@@ -38,10 +44,32 @@ class DetailTopRatedActivity : AppCompatActivity() {
     }
 
     private fun updateUi(model: DetailTopRatedMovieViewModel.UiModel) = with(binding) {
-        val movie = model.movie
-        movieDetailToolbar.title = movie.title
-        movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
-        movieDetailSummary.text = movie.overview
-        movieDetailInfo.setMovie(movie)
+        when (model) {
+            is DetailTopRatedMovieViewModel.UiModel.Content -> {
+                val movie = model.movie
+                movieDetailToolbar.title = movie.title
+                movieImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
+                movieDetailSummary.text = movie.overview
+                movieDetailInfo.setMovie(movie)
+            }
+            is DetailTopRatedMovieViewModel.UiModel.PlayVideo -> {
+                val trailer = model.result
+                val dialogFragment =
+                    PlayVideoDialogFragment(BuildConfig.BASE_YOUTUBE_URL + trailer.key)
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                transaction.add(
+                    android.R.id.content,
+                    dialogFragment
+                ).addToBackStack(null).commit()
+            }
+            is DetailTopRatedMovieViewModel.UiModel.notFoundVideos -> {
+                Snackbar.make(
+                    findViewById(R.id.detailTopRated),
+                    "No se encontraron videos de esta película",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

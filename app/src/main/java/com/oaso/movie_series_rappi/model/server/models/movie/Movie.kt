@@ -1,4 +1,4 @@
-package com.oaso.movie_series_rappi.model.server
+package com.oaso.movie_series_rappi.model.server.models.movie
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
