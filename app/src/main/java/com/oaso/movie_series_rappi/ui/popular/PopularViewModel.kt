@@ -29,6 +29,7 @@ class PopularViewModel @Inject constructor(
     sealed class UiModel {
         object Loading : UiModel()
         class Content(val popularMovies: List<PopularMovie>) : UiModel()
+        class LoadMoreMovies(val popularMovies: List<PopularMovie>) : UiModel()
     }
 
     private fun loadPopularMovies() {
@@ -37,6 +38,16 @@ class PopularViewModel @Inject constructor(
             _model.value =
                 UiModel.Content(
                     moviesRepository.getPopularMovies()
+                )
+        }
+    }
+
+     fun loadMorePopularMovies(page : Int){
+        viewModelScope.launch {
+            _model.value = UiModel.Loading
+            _model.value =
+                UiModel.LoadMoreMovies(
+                    moviesRepository.getMorePopularMovies(page)
                 )
         }
     }

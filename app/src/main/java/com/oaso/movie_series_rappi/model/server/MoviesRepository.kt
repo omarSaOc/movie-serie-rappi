@@ -26,12 +26,28 @@ class MoviesRepository @Inject constructor(
         }
     }
 
+    suspend fun getMorePopularMovies(page: Int): List<PopularMovie> = withContext(Dispatchers.IO) {
+        with(db.movieDao()) {
+            val movies = service.getMorePopularMovies(page = page).results
+            insertMovies(movies.map { movie -> convertToPopularMovie(movie) })
+            getAll()
+        }
+    }
+
     suspend fun getTopRatedMovies(): List<RatedMovie> = withContext(Dispatchers.IO) {
         with(ratedDb.ratedMovieDao()) {
             if (movieCount() <= 0) {
                 val movies = service.getTopRatedMovies().results
                 insertMovies(movies.map { movie -> convertToRatedMovie(movie) })
             }
+            getAll()
+        }
+    }
+
+    suspend fun getMoreTopRatedMovies(page : Int): List<RatedMovie> = withContext(Dispatchers.IO){
+        with(ratedDb.ratedMovieDao()){
+            val movies = service.getMoreTopRatedMovies(page = page).results
+            insertMovies(movies.map { movie -> convertToRatedMovie(movie) })
             getAll()
         }
     }

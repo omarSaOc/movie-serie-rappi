@@ -46,7 +46,6 @@ class DetailPopularMovieActivity : AppCompatActivity() {
     }
 
     private fun updateUi(model: UiModel) = with(binding) {
-
         when (model) {
             is UiModel.Content -> {
                 val movie = model.movie

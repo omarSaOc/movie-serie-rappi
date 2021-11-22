@@ -11,12 +11,24 @@ interface TheMovieDbService {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+    ): MovieDbResult
+
+    @GET("movie/popular")
+    suspend fun getMorePopularMovies(
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+        @Query("page") page : Int = 1
     ): MovieDbResult
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
         @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): MovieDbResult
+
+    @GET("movie/top_rated")
+    suspend fun getMoreTopRatedMovies(
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+        @Query("page") page : Int = 1
     ): MovieDbResult
 
     @GET
