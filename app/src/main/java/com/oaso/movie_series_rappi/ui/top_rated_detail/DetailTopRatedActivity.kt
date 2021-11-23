@@ -2,7 +2,6 @@ package com.oaso.movie_series_rappi.ui.top_rated_detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -10,9 +9,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.oaso.movie_series_rappi.BuildConfig
 import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ActivityDetailTopRatedBinding
-import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 import com.oaso.movie_series_rappi.ui.popular.PlayVideoDialogFragment
+import com.oaso.movie_series_rappi.ui.top_rated.NavRatedMovie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +36,7 @@ class DetailTopRatedActivity : AppCompatActivity() {
             viewModel.playVideoTrailer()
         }
 
-        val movie: RatedMovie = intent.getParcelableExtra(MOVIE)
+        val movie: NavRatedMovie = intent.getParcelableExtra(MOVIE)
             ?: throw(IllegalAccessException("Movie not found"))
         viewModel.setMovie(movie)
         viewModel.model.observe(this, Observer(::updateUi))

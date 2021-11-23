@@ -6,12 +6,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
+import com.oaso.movie_series_rappi.ui.top_rated.NavRatedMovie
 
 class TopRatedMovieDetailInfoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatTextView(context, attrs) {
 
-    fun setMovie(movie: RatedMovie) = with(movie) {
+    fun setMovie(movie: NavRatedMovie) = with(movie) {
         text = buildSpannedString {
             bold { append("Original language: ") }
             appendLine(originalLanguage)

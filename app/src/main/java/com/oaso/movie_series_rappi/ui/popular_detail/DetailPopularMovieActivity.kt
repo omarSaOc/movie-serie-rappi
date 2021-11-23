@@ -12,6 +12,7 @@ import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ActivityDetailMovieBinding
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.ui.common.loadUrl
+import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
 import com.oaso.movie_series_rappi.ui.popular.PlayVideoDialogFragment
 import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieViewModel.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class DetailPopularMovieActivity : AppCompatActivity() {
             viewModel.playVideoTrailer()
         }
 
-        val movie: PopularMovie = intent.getParcelableExtra(MOVIE)
+        val movie: NavPopularMovie = intent.getParcelableExtra(MOVIE)
             ?: throw(IllegalAccessException("Movie not found"))
         viewModel.setMovie(movie)
         viewModel.model.observe(this, Observer(::updateUi))

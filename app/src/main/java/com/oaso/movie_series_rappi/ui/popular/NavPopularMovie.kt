@@ -1,11 +1,10 @@
-package com.oaso.movie_series_rappi.model.database.rated_movie
+package com.oaso.movie_series_rappi.ui.popular
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Entity
-data class RatedMovie(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+@Parcelize
+data class NavPopularMovie(
     val title: String,
     val overview: String,
     val releaseDate: String,
@@ -17,4 +16,5 @@ data class RatedMovie(
     val voteAverage: Double,
     val favorite: Boolean,
     val movieId: Int
-)
+): Parcelable
+

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.model.server.MoviesRepository
 import com.oaso.movie_series_rappi.model.server.models.videos.Result
+import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,10 +17,10 @@ class DetailPopularMovieViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    private lateinit var movie: PopularMovie
+    private lateinit var movie: NavPopularMovie
 
     sealed class UiModel {
-        class Content(val movie: PopularMovie) : UiModel()
+        class Content(val movie: NavPopularMovie) : UiModel()
         class PlayVideo(val result: Result) : UiModel()
         object notFoundVideos : UiModel()
     }
@@ -33,7 +34,7 @@ class DetailPopularMovieViewModel @Inject constructor(
             return _model
         }
 
-    fun setMovie(movie: PopularMovie) {
+    fun setMovie(movie: NavPopularMovie) {
         this.movie = movie
     }
 

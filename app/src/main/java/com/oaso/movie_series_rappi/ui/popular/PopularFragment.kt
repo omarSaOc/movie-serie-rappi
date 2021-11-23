@@ -16,6 +16,7 @@ import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.FragmentPopularBinding
 import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.ui.common.startActivity
+import com.oaso.movie_series_rappi.ui.common.transformToNav
 import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -76,7 +77,7 @@ class PopularFragment : Fragment() {
         viewModel.navigation.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 context?.startActivity<DetailPopularMovieActivity> {
-                    putExtra(DetailPopularMovieActivity.MOVIE, it)
+                    putExtra(DetailPopularMovieActivity.MOVIE, it.transformToNav())
                 }
             }
         })

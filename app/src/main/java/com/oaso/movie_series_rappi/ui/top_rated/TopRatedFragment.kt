@@ -14,6 +14,7 @@ import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.FragmentTopRatedBinding
 import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
 import com.oaso.movie_series_rappi.ui.common.startActivity
+import com.oaso.movie_series_rappi.ui.common.transformToNav
 import com.oaso.movie_series_rappi.ui.top_rated_detail.DetailTopRatedActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -73,7 +74,7 @@ class TopRatedFragment : Fragment() {
         viewModel.navigation.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let {
                 context?.startActivity<DetailTopRatedActivity> {
-                    putExtra(DetailTopRatedActivity.MOVIE, it)
+                    putExtra(DetailTopRatedActivity.MOVIE, it.transformToNav())
                 }
             }
         })

@@ -12,6 +12,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oaso.movie_series_rappi.BaseApplication
+import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
+import com.oaso.movie_series_rappi.model.database.rated_movie.RatedMovie
+import com.oaso.movie_series_rappi.model.server.models.movie.Movie
+import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
+import com.oaso.movie_series_rappi.ui.top_rated.NavRatedMovie
 import kotlin.properties.Delegates
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): View =
@@ -46,6 +51,66 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
             override fun getNewListSize(): Int = new.size
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
+
+
+fun Movie.transformToPopular(): PopularMovie = PopularMovie(
+    0,
+    title,
+    overview,
+    release_date,
+    poster_path,
+    backdrop_path ?: poster_path,
+    original_language,
+    original_title,
+    popularity,
+    vote_average,
+    false,
+    id
+)
+
+fun Movie.transformToRated(): RatedMovie = RatedMovie(
+    0,
+    title,
+    overview,
+    release_date,
+    poster_path,
+    backdrop_path ?: poster_path,
+    original_language,
+    original_title,
+    popularity,
+    vote_average,
+    false,
+    id
+)
+
+fun PopularMovie.transformToNav(): NavPopularMovie = NavPopularMovie(
+    title,
+    overview,
+    releaseDate,
+    posterPath,
+    backdropPath,
+    originalLanguage,
+    originalTitle,
+    popularity,
+    voteAverage,
+    favorite,
+    movieId
+)
+
+
+fun RatedMovie.transformToNav(): NavRatedMovie = NavRatedMovie(
+    title,
+    overview,
+    releaseDate,
+    posterPath,
+    backdropPath,
+    originalLanguage,
+    originalTitle,
+    popularity,
+    voteAverage,
+    favorite,
+    movieId
+)
 
 val Context.app: BaseApplication
     get() = applicationContext as BaseApplication

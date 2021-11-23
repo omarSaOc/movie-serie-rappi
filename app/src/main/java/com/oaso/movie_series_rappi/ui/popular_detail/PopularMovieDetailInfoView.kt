@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
+import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
 
 class PopularMovieDetailInfoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatTextView(context, attrs) {
 
-    fun setMovie(movie: PopularMovie) = with(movie) {
+    fun setMovie(movie: NavPopularMovie) = with(movie) {
         text = buildSpannedString {
             bold { append("Original language: ") }
             appendLine(originalLanguage)

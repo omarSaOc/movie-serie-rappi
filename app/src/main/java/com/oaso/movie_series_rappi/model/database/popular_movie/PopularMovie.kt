@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Entity
-@Parcelize
 data class PopularMovie(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
@@ -20,4 +19,4 @@ data class PopularMovie(
     val voteAverage: Double,
     val favorite: Boolean,
     val movieId : Int
-) : Parcelable
+)
