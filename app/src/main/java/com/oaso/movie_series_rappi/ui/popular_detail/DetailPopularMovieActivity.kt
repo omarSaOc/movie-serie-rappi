@@ -1,19 +1,17 @@
 package com.oaso.movie_series_rappi.ui.popular_detail
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.oaso.movie_series_rappi.BuildConfig
 import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ActivityDetailMovieBinding
-import com.oaso.movie_series_rappi.model.database.popular_movie.PopularMovie
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
-import com.oaso.movie_series_rappi.ui.popular.PlayVideoDialogFragment
 import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieViewModel.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +25,6 @@ class DetailPopularMovieActivity : AppCompatActivity() {
     private val viewModel: DetailPopularMovieViewModel by viewModels()
     private lateinit var binding: ActivityDetailMovieBinding
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
@@ -57,11 +54,10 @@ class DetailPopularMovieActivity : AppCompatActivity() {
             }
             is UiModel.PlayVideo -> {
                 val trailer = model.result
-                val dialogFragment =
-                    PlayVideoDialogFragment(BuildConfig.BASE_YOUTUBE_URL + trailer.key)
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit()
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:${trailer.key}"))
+                intent.putExtra("force_fullscreen", true)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             is UiModel.notFoundVideos -> {
                 Snackbar.make(

@@ -1,5 +1,7 @@
 package com.oaso.movie_series_rappi.ui.top_rated_detail
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,7 +12,6 @@ import com.oaso.movie_series_rappi.BuildConfig
 import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ActivityDetailTopRatedBinding
 import com.oaso.movie_series_rappi.ui.common.loadUrl
-import com.oaso.movie_series_rappi.ui.popular.PlayVideoDialogFragment
 import com.oaso.movie_series_rappi.ui.top_rated.NavRatedMovie
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,14 +54,10 @@ class DetailTopRatedActivity : AppCompatActivity() {
             }
             is DetailTopRatedMovieViewModel.UiModel.PlayVideo -> {
                 val trailer = model.result
-                val dialogFragment =
-                    PlayVideoDialogFragment(BuildConfig.BASE_YOUTUBE_URL + trailer.key)
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                transaction.add(
-                    android.R.id.content,
-                    dialogFragment
-                ).addToBackStack(null).commit()
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:${trailer.key}"))
+                intent.putExtra("force_fullscreen", true)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             is DetailTopRatedMovieViewModel.UiModel.notFoundVideos -> {
                 Snackbar.make(
