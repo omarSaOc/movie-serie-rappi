@@ -20,8 +20,8 @@ class DetailPopularMovieViewModel @Inject constructor(
     private lateinit var movie: NavPopularMovie
 
     sealed class UiModel {
-        class Content(val movie: NavPopularMovie) : UiModel()
-        class PlayVideo(val result: Result) : UiModel()
+        data class Content(val movie: NavPopularMovie) : UiModel()
+        data class PlayVideo(val result: Result) : UiModel()
         object notFoundVideos : UiModel()
     }
 

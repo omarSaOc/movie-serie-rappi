@@ -30,8 +30,8 @@ class TopRatedViewModel @Inject constructor(
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val ratedMovies: List<RatedMovie>) : UiModel()
-        class LoadMoreMovies(val ratedMovies: List<RatedMovie>) : UiModel()
+        data class Content(val ratedMovies: List<RatedMovie>) : UiModel()
+        data class LoadMoreMovies(val ratedMovies: List<RatedMovie>) : UiModel()
     }
 
     private fun loadTopRatedMovies() {
@@ -44,7 +44,7 @@ class TopRatedViewModel @Inject constructor(
         }
     }
 
-    fun loadMorePopularMovies(page : Int){
+    fun loadMoreRatedMovies(page : Int){
         viewModelScope.launch {
             _model.value = UiModel.Loading
             _model.value =

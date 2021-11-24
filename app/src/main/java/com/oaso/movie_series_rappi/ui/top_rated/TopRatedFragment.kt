@@ -48,7 +48,7 @@ class TopRatedFragment : Fragment() {
         binding.recycler.adapter = adapter
 
         binding.swipe.setOnRefreshListener {
-            viewModel.loadMorePopularMovies(currentPage + 1)
+            viewModel.loadMoreRatedMovies(currentPage + 1)
             with(sharedPref?.edit()) {
                 this?.putInt(getString(R.string.CURRENT_PAGE_RATED), currentPage + 1)
                 this?.apply()

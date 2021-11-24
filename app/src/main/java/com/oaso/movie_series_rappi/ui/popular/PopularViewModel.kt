@@ -28,8 +28,8 @@ class PopularViewModel @Inject constructor(
 
     sealed class UiModel {
         object Loading : UiModel()
-        class Content(val popularMovies: List<PopularMovie>) : UiModel()
-        class LoadMoreMovies(val popularMovies: List<PopularMovie>) : UiModel()
+        data class Content(val popularMovies: List<PopularMovie>) : UiModel()
+        data class LoadMoreMovies(val popularMovies: List<PopularMovie>) : UiModel()
     }
 
     private fun loadPopularMovies() {
