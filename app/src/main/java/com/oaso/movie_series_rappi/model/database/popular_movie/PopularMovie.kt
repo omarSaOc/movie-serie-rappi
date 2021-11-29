@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity
 data class PopularMovie(
-    @PrimaryKey(autoGenerate = false) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val overview: String,
     val releaseDate: String,

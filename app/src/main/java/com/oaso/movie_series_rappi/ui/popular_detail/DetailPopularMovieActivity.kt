@@ -5,11 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.oaso.movie_series_rappi.R
 import com.oaso.movie_series_rappi.databinding.ActivityDetailMovieBinding
+import com.oaso.movie_series_rappi.ui.common.ConnectionLiveData
 import com.oaso.movie_series_rappi.ui.common.loadUrl
 import com.oaso.movie_series_rappi.ui.popular.NavPopularMovie
 import com.oaso.movie_series_rappi.ui.popular_detail.DetailPopularMovieViewModel.*
@@ -24,6 +27,8 @@ class DetailPopularMovieActivity : AppCompatActivity() {
 
     private val viewModel: DetailPopularMovieViewModel by viewModels()
     private lateinit var binding: ActivityDetailMovieBinding
+    private lateinit var connection : ConnectionLiveData
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,8 @@ class DetailPopularMovieActivity : AppCompatActivity() {
             ?: throw(IllegalAccessException("Movie not found"))
         viewModel.setMovie(movie)
         viewModel.model.observe(this, Observer(::updateUi))
+        connection = ConnectionLiveData(application)
+        connection.observe(this,::checkConnectionInternet)
     }
 
     private fun updateUi(model: UiModel) = with(binding) {
@@ -66,6 +73,16 @@ class DetailPopularMovieActivity : AppCompatActivity() {
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    private fun checkConnectionInternet(isConnected : Boolean){
+        if (isConnected){
+            binding.llConnection.visibility = View.GONE
+            binding.fab.visibility = View.VISIBLE
+        }else{
+            binding.llConnection.visibility = View.VISIBLE
+            binding.fab.visibility = View.GONE
         }
     }
 }
